@@ -7,7 +7,7 @@ readme = "README.md"
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.12"
+python = ">=3.10,<3.14"
 streamlit = "^1.32.0"
 yfinance = "^0.2.36"
 ccxt = "^4.2.0"
