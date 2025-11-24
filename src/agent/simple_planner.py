@@ -63,7 +63,6 @@ def generate_strategy_proposals(
     proposals = []
     
     # Handle regime_data being either a string or dict
-    print(f"DEBUG simple_planner: regime_data type={type(regime_data)}, value={regime_data}")
     if isinstance(regime_data, str):
         regime_name = regime_data
     elif isinstance(regime_data, dict):
@@ -72,8 +71,6 @@ def generate_strategy_proposals(
         regime_name = str(regime_data[0]) if len(regime_data) > 0 else 'neutral'
     else:
         regime_name = str(regime_data) if regime_data is not None else 'neutral'
-    
-    print(f"DEBUG simple_planner: regime_name type={type(regime_name)}, value={regime_name}")
     
     # Get current market characteristics
     latest_features = features_df.iloc[-1] if not features_df.empty else pd.Series()

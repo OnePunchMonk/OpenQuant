@@ -178,14 +178,11 @@ def run_backtest(ohlcv_data, assets, strategy_name, params, allocation_weights=N
             p.setdefault('regime_data', 'neutral')
             p.setdefault('momentum_params', {'fast_window': 21, 'slow_window': 63})
             p.setdefault('mean_reversion_params', {'window': 20, 'num_std': 2.0})
-            print(f"DEBUG regime_based after defaults: {p}")
             # Ensure regime_data is properly formatted
             if 'regime_data' in p:
                 rd = p['regime_data']
-                print(f"DEBUG regime_data before filtering: type={type(rd)}, value={rd}")
                 if isinstance(rd, (tuple, list)):
                     p['regime_data'] = str(rd[0]) if len(rd) > 0 else 'neutral'
-                    print(f"DEBUG regime_data converted from tuple/list to: {p['regime_data']}")
                 elif isinstance(rd, dict):
                     name_val = rd.get('name', rd)
                     if isinstance(name_val, (tuple, list)):
@@ -196,7 +193,6 @@ def run_backtest(ohlcv_data, assets, strategy_name, params, allocation_weights=N
                     p['regime_data'] = rd
                 elif not isinstance(rd, str):
                     p['regime_data'] = str(rd)
-                    print(f"DEBUG regime_data converted to string: {p['regime_data']}")
         elif name == 'volatility':
             p.setdefault('window', 21)
             p.setdefault('vol_threshold', 0.2)
@@ -205,10 +201,7 @@ def run_backtest(ohlcv_data, assets, strategy_name, params, allocation_weights=N
             p.setdefault('num_std', 2.0)
 
         # Filter unknown keys to avoid unexpected keyword errors
-        print(f"DEBUG: Strategy {name}, original params: {p}")
-        print(f"DEBUG: Accepted params: {accepted}")
         filtered = {k: v for k, v in p.items() if k in accepted}
-        print(f"DEBUG: Filtered params: {filtered}")
         return filtered
 
     for asset in assets:

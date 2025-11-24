@@ -270,7 +270,9 @@ def main():
         min_value=1,
         max_value=10,
         value=5
-    )    # AI Agent settings
+    )
+    
+    # AI Agent settings
     run_agent = st.sidebar.button("Generate Strategies")
     
     # Main content area
@@ -580,7 +582,7 @@ def main():
                                     st.session_state.backtest_results[strategy_key]["metrics"] = result.get("metrics")
                                     
                                     # Rerun the app to show updated results
-                                    st.experimental_rerun()
+                                    st.rerun()
                             
                             except Exception as e:
                                 st.error(f"Error during optimization: {str(e)}")

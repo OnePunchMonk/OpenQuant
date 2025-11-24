@@ -27,7 +27,11 @@ def show_paper_trading(asset_mode: str):
     st.header("📡 Paper Trading Live View")
     refresh_seconds = config.get("paper_trading", {}).get("refresh_seconds", 60)
     st.caption(f"Auto-refresh every {refresh_seconds} seconds")
-    st_autorefresh_count = st.experimental_autorefresh(interval=refresh_seconds * 1000, limit=None, key="paper_refresh")
+    
+    # Note: st.experimental_autorefresh was removed in newer Streamlit versions
+    # Using manual refresh button instead
+    if st.button("🔄 Refresh", key="paper_refresh"):
+        st.rerun()
 
     # Asset selection based on mode
     if asset_mode == 'Crypto':
@@ -66,5 +70,3 @@ def show_paper_trading(asset_mode: str):
         st.code("".join(log_lines), language="text")
     else:
         st.info("No log output available yet.")
-
-    st.caption(f"Refresh count: {st_autorefresh_count}")

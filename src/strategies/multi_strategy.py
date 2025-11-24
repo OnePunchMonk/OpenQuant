@@ -275,9 +275,6 @@ def calculate_regime_based_signal(
     Returns:
         Series with regime-based signals
     """
-    # Debug: Print regime_data type and value
-    print(f"DEBUG regime_based_signal: regime_data type={type(regime_data)}, value={regime_data}")
-    
     # Accept either a string (e.g., from detect_regime) or a dict with a 'name' field
     if isinstance(regime_data, str):
         regime_type = regime_data.lower()
