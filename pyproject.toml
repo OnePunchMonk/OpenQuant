@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "alphaswarm-web"
+version = "1.0.0"
+description = "AI-Powered Quantitative Research Dashboard"
+authors = ["OnePunchMonk"]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+streamlit = "^1.32.0"
+yfinance = "^0.2.36"
+ccxt = "^4.2.0"
+pandas = "^2.2.0"
+numpy = "^1.26.0"
+plotly = "^5.19.0"
+vectorbt = "^0.26.0"
+langchain = "^0.1.0"
+langchain-google-genai = "^0.0.9"
+watchdog = "^4.0.0"
+pyyaml = "^6.0.0"
+fredapi = "^0.5.0"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pandera = "^0.18.0"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-v"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

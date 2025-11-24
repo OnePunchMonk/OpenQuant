@@ -1,0 +1,12 @@
+secrets/
+.env
+data_store/
+logs/
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+# Virtualenvs
+.venv/
+# Poetry
+poetry.lock
