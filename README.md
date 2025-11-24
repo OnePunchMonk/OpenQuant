@@ -1,103 +1,30 @@
-# AlphaSwarm Web: AI-Powered Quantitative Research Dashboard
+# OpenQuant
 
-[![Project Status: Stable](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/OnePunchMonk/AgentQuant) [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
+An experimental AI-powered trading strategy research platform.
 
-## 🚀 Revolutionizing Quantitative Finance with Agentic AI
+## About
 
-*Transform stock selection into complete trading strategies in < 5 minutes through autonomous AI agents*
+This is a personal project exploring the use of LLMs (specifically Google Gemini) to help generate and backtest quantitative trading strategies. The system uses LangChain for agent orchestration and vectorbt for backtesting.
 
----
+## What it does
 
-## 🎯 Problem Statement
+- Fetches market data using yfinance and FRED APIs
+- Uses an LLM to generate trading strategy ideas based on market conditions
+- Backtests strategies against historical data
+- Provides a web interface (Streamlit) to interact with the system
+- Supports both stocks and crypto markets
 
-Traditional quantitative trading requires:
-- **Extensive Domain Expertise**: Years of experience in strategy development
-- **Manual Research Process**: Time-intensive coding and testing cycles  
-- **Limited Strategy Exploration**: Human bias restricts discovery space
-- **Fragmented Workflows**: Separate tools for data, backtesting, and analysis
-- **Static Approaches**: Inability to adapt to changing market conditions
+## Tech Stack
 
-**The Gap**: No unified platform that can autonomously transform a simple stock universe into complete, mathematically-formulated, backtested trading strategies.
-
-## 💡 Our Solution: Complete Agentic Automation
-
-**AgentQuant** is the first truly autonomous quantitative trading research platform that:
-
-✅ **Abstracts All Quant Work**: Input stock symbols → Output complete strategies  
-✅ **Mathematical Formulation**: Auto-generates strategy equations and logic  
-✅ **Real-World Data**: Backtests using live market data via yfinance API  
-✅ **Visual Results**: Professional-grade plots and performance analytics  
-✅ **Zero Manual Coding**: No programming knowledge required  
-
-### The Magic: From Stocks to Strategies in Minutes
-
-```
-INPUT:  ["AAPL", "MSFT", "GOOGL"]  →  AGENT PROCESSING  →  OUTPUT: Complete Trading System
-```
-
-1. **You provide**: Stock universe in `config.yaml`
-2. **Agent handles**: Data fetching, feature engineering, regime detection, strategy formulation, backtesting, visualization
-3. **You receive**: Ready-to-use strategies with mathematical formulas and performance metrics
-
-## 🏗️ Architecture: Agentic AI at the Core
-
-```mermaid
-flowchart TB
-    UI[🖥️ Streamlit Interface] --> AGENT[🤖 LangChain Agent Brain]
-    CONFIG[📋 config.yaml<br/>Stock Universe] --> AGENT
-    
-    AGENT --> DL[📊 Data Layer<br/>yfinance + FRED]
-    AGENT --> FE[⚙️ Feature Engine<br/>Technical Indicators]
-    AGENT --> RD[🔍 Regime Detection<br/>Market Analysis]
-    AGENT --> SG[🧠 Strategy Generation<br/>LLM-Powered]
-    
-    SG --> BT[⚡ Backtest Engine<br/>vectorbt]
-    BT --> VIZ[📈 Visualization<br/>Interactive Charts]
-    VIZ --> RESULTS[📋 Strategy Reports<br/>Mathematical Formulas]
-    
-    subgraph "🤖 Autonomous Agent Layer"
-        AGENT
-        SG
-    end
-    
-    subgraph "🔄 Processing Pipeline"
-        DL
-        FE
-        RD
-        BT
-    end
-    
-    subgraph "📊 Output Layer"
-        VIZ
-        RESULTS
-    end
-    
-    classDef agent fill:#ffd700,stroke:#333,stroke-width:3px
-    classDef process fill:#e1f5fe,stroke:#333,stroke-width:2px
-    classDef output fill:#c8e6c9,stroke:#333,stroke-width:2px
-    classDef input fill:#fff3e0,stroke:#333,stroke-width:2px
-    
-    class UI,CONFIG input
-    class AGENT,SG agent
-    class DL,FE,RD,BT process
-    class VIZ,RESULTS output
-```
-
-## 🛠️ Technology Stack
-
-### Core AI & Agent Framework
-- **🧠 LangChain + LangGraph**: Structured agent workflows and reasoning
-- **🤖 Google Gemini Pro**: Large Language Model for strategy planning
-- **🔄 Autonomous Agents**: Self-directed planning, execution, and analysis
-
-### Financial Computing Engine  
-- **🐍 Python 3.10+**: High-performance numerical computing
-- **📊 vectorbt**: Lightning-fast vectorized backtesting
-- **📈 yfinance**: Real-time market data integration
-- **🏦 FRED API**: Macroeconomic indicators
-- **📋 pandas + numpy**: Data manipulation and analysis
-
-### Visualization & Interface
+- Python 3.10+
+- LangChain - LLM orchestration
+- Google Gemini API - Strategy generation
+- vectorbt - Backtesting engine
+- yfinance - Stock market data
+- CCXT - Crypto market data
+- FRED API - Economic indicators
+- Streamlit - Web interface
+- Plotly - Interactive charts
 - **🖥️ Streamlit**: Interactive web-based dashboard
 - **📊 matplotlib + plotly**: Professional trading charts
 - **💾 Parquet**: Efficient data storage format
@@ -171,155 +98,75 @@ docker run -p 8501:8501 alphaswarm-web
 docker compose up --build
 ```
 
-### Step 2: Configure Your Stock Universe
+## Setup
 
-Edit `config.yaml` to specify your target stocks or crypto symbols:
-## 🧬 New Viral Features
-
-| Feature | Hook | Description |
-|---------|------|-------------|
-| Strategy Lego Registry | "No hallucinated math" | Pre-built, validated blocks (RSI Mean Reversion, Bollinger Breakout, etc.) |
-| Multi-Asset Toggle | "Trade DOGE & SPY side-by-side" | Switch between yfinance equities and CCXT crypto instantly |
-| Paper Trading Live View | "Feels like a mini Bloomberg terminal" | Auto-refresh price + agent thinking logs every 60s |
-| Interactive Plotly Charts | "Zoom & pan like a pro" | Candlesticks + dynamic equity & allocation visuals |
-
-## 🌐 Deployment
-
-| Platform | Method | Notes |
-|----------|--------|-------|
-| Streamlit Cloud | Direct (run_app.py) | Zero config; add badge above |
-| Railway / Render | Dockerfile | Always-on, scalable |
-
-## 📦 Tech Upgrade Summary
-
-- Migrated to Poetry for clean dependency management
-- Added CCXT for crypto support
-- Introduced Strategy Lego blocks (`src/strategies/lego_blocks.py`)
-- Added paper trading module (`src/app/paper_trading.py`)
-- Plotly replaces static Matplotlib in UI for key charts
-- Unified config (`config.yaml`) now contains `crypto_universe` & `paper_trading` settings
-- Logging now persisted to `logs/app.log` with tail utility for live view
-
-## 🛡️ Anti-Hallucination Philosophy
-AlphaSwarm constrains strategy generation through validated lego blocks, reducing speculative logic and keeping outputs auditable.
-
-## 🔧 Maintenance Commands (Optional)
+1. Clone the repository:
 ```bash
-poetry update            # Refresh dependency pins
-poetry run pytest -q     # Run tests
-poetry export -f requirements.txt --output requirements.lock.txt --without-hashes
+git clone https://github.com/OnePunchMonk/OpenQuant.git
+cd OpenQuant
 ```
 
-## ✅ Next Enhancements (Roadmap)
-- Add parameter optimization UI for lego blocks
-- Connect live crypto price websockets for faster paper trading refresh
-- Persist paper trading PnL curve
-- Add user strategy save & load feature
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
+3. Configure your asset universe in `config.yaml`:
 ```yaml
 universe:
-  - "AAPL"    # Apple
-  - "MSFT"    # Microsoft  
-  - "GOOGL"   # Google
-  - "TSLA"    # Tesla
-  - "NVDA"    # NVIDIA
+  - "SPY"
+  - "QQQ"
+  - "TLT"
+  
+crypto_universe:
+  - "BTC/USDT"
+  - "ETH/USDT"
 ```
 
-### Step 3: Set Up API Keys
-
-Create a `.env` file:
-
+4. Set up your API keys in `.env`:
 ```bash
-# Required for AI agent
 GOOGLE_API_KEY=your_gemini_api_key_here
-
-# Optional for macro data
-FRED_API_KEY=your_fred_api_key_here
+FRED_API_KEY=your_fred_api_key_here  # optional
 ```
 
-### Step 4: Launch the Platform
-
+5. Run the app:
 ```bash
-# Start the Streamlit dashboard
-python run_app.py
+streamlit run run_app.py
 ```
 
-🎉 **That's it!** Navigate to `http://localhost:8501` and let the AI agents work their magic!
+## Features
 
-## 🎮 How to Use: From Stocks to Strategies
+- **Strategy Generation**: Uses LLM to propose trading strategies based on market data
+- **Pre-built Strategy Blocks**: Select from validated strategy templates (RSI, Bollinger Bands, etc.)
+- **Multi-Asset Support**: Works with both stocks (yfinance) and crypto (CCXT)
+- **Backtesting**: Test strategies against historical data using vectorbt
+- **Interactive Charts**: View results with Plotly visualizations
+- **Paper Trading View**: Live price monitoring with auto-refresh
 
-### 1. **Select Your Universe** (30 seconds)
-- Choose stocks from the sidebar
-- Set date ranges for analysis  
-- Configure number of strategies to generate
+## Project Structure
 
-### 2. **Agent Takes Over** (2-5 minutes)
-- **Data Fetching**: Automatically downloads market data
-- **Feature Engineering**: Computes 50+ technical indicators
-- **Regime Detection**: Identifies current market conditions
-- **Strategy Generation**: Creates 5-10 unique strategies using AI
-- **Backtesting**: Tests each strategy on historical data
-- **Optimization**: Fine-tunes parameters automatically
-
-### 3. **Review Results** (Instant)
-- **Performance Charts**: Interactive equity curves
-- **Mathematical Formulas**: Exact strategy equations
-- **Risk Metrics**: Sharpe ratio, max drawdown, volatility
-- **Portfolio Allocation**: Dynamic asset weighting
-- **Comparison Analysis**: Strategy vs benchmark performance
-
-## 📸 Platform Screenshots
-
-### Main Dashboard - Strategy Generation Interface
-![Dashboard Overview](screenshots/dashboard1.png)
-*The main Streamlit interface where users configure stock universe and generate AI-powered trading strategies*
-
-### Strategy Performance Analysis
-![Performance Analysis](screenshots/dashboard2.png)
-*Comprehensive performance metrics and equity curve visualization for generated strategies*
-
-### Portfolio Composition & Allocation
-![Portfolio Composition](screenshots/dashboard3.png)
-*Dynamic asset allocation charts showing portfolio weights and rebalancing over time*
-
-### Risk Analytics Dashboard
-![Risk Analytics](screenshots/dashboard4.png)
-*Detailed risk analysis including drawdown analysis, Sharpe ratios, and volatility metrics*
-
-## 🧠 AI Agent Capabilities: The Complete Quant Researcher
-
-### Does AgentQuant Abstract All Quantitative Work? **YES!** ✅
-
-**Traditional Quant Workflow** (Weeks/Months):
 ```
-1. Data Collection       → 📊 Hours of setup
-2. Feature Engineering   → 🔧 Days of coding  
-3. Strategy Development  → 🧠 Weeks of research
-4. Backtesting          → ⚡ Days of debugging
-5. Optimization         → 🎯 Weeks of tuning
-6. Visualization        → 📈 Hours of plotting
-7. Documentation        → 📋 Hours of writing
+OpenQuant/
+├── src/
+│   ├── agent/          # LLM agent logic
+│   ├── app/            # Streamlit interface
+│   ├── backtest/       # Backtesting engine
+│   ├── data/           # Data fetching (yfinance, CCXT, FRED)
+│   ├── features/       # Technical indicators
+│   ├── strategies/     # Strategy implementations
+│   ├── utils/          # Config and logging
+│   └── visualization/  # Plotting utilities
+├── config.yaml         # Configuration
+├── requirements.txt    # Dependencies
+└── run_app.py         # Entry point
 ```
 
-**AgentQuant Workflow** (Minutes):
-```
-1. Input Stock Universe  → ⏱️ 30 seconds
-2. Click "Generate"      → 🖱️ 1 click
-3. Get Complete Results  → 🎉 2-5 minutes
-```
+## Notes
 
-### What the Agent Autonomously Handles:
-
-✅ **Data Pipeline**: Fetches real-time data from yfinance API  
-✅ **Feature Engineering**: 50+ technical indicators automatically computed  
-✅ **Market Regime Analysis**: Detects bull/bear/sideways markets  
-✅ **Strategy Formulation**: Creates mathematical trading rules  
-✅ **Parameter Optimization**: Finds optimal strategy parameters  
-✅ **Risk Management**: Applies position sizing and drawdown limits  
-✅ **Backtesting**: Full historical simulation with realistic costs  
-✅ **Performance Analytics**: Comprehensive risk/return metrics  
-✅ **Visualization**: Professional-grade charts and reports  
-✅ **Mathematical Documentation**: Exact formulas for each strategy  
+- This is an experimental project and not intended for actual trading
+- Backtests are based on historical data and don't guarantee future performance
+- The LLM-generated strategies should be reviewed before use
+- Requires API keys for Google Gemini (required) and FRED (optional)  
 
 ### Ready for Production Use? **Almost!** ⚠️
 
@@ -400,65 +247,10 @@ Allocation = {AAPL: 40%, MSFT: 35%, GOOGL: 25%}
 
 ### 3. **Portfolio Managers**  
 - Generate alpha through systematic approaches
-- Reduce human bias in strategy selection
-- Scale research capabilities
+## License
 
-### 4. **Financial Educators**
-- Teach quantitative concepts interactively
-- Demonstrate strategy performance in real-time
-- Hands-on learning without programming barriers
+MIT License - see LICENSE file for details.
 
-## 📚 Documentation
+## Disclaimer
 
-### Comprehensive Documentation Suite
-- **[README.md](README.md)** - Main project overview and quickstart guide
-- **[DESIGN.md](DESIGN.md)** - Complete technical architecture and system design
-- **[AGENT.md](docs/AGENT.md)** - Deep dive into AI agent architecture from GenAI engineering perspective
-- **[INSTALLATION.md](docs/INSTALLATION.md)** - Detailed installation and setup instructions
-
-### Developer Resources
-- **Agent Architecture**: Detailed LangGraph workflows, state management, and tool integration patterns
-- **Strategy Framework**: Complete strategy development lifecycle and implementation details  
-- **API Documentation**: Function signatures, parameters, and usage examples
-- **Performance Tuning**: Optimization guidelines and best practices
-
-For developers interested in the internal agent reasoning loops, multi-agent orchestration, and GenAI engineering patterns, see **[docs/AGENT.md](docs/AGENT.md)** for comprehensive technical details.
-
-## 🤝 Contributing
-
-We welcome contributions from the quantitative finance and AI communities:
-
-```bash
-# Fork the repository
-git fork https://github.com/onepunchmonk/AgentQuant.git
-
-# Create a feature branch  
-git checkout -b feature/amazing-new-feature
-
-# Make your changes and commit
-git commit -m "Add amazing new feature"
-
-# Push to your fork and submit a pull request
-git push origin feature/amazing-new-feature
-```
-
-### Areas for Contribution:
-- 🧠 **AI Agents**: Enhanced reasoning and planning capabilities
-- 📊 **Strategies**: New trading algorithms and risk models  
-- 🔌 **Integrations**: Additional data sources and broker APIs
-- 🎨 **Visualization**: Advanced charting and analytics
-- 🧪 **Testing**: Comprehensive test coverage and validation
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🌟 The Future of Quantitative Trading is Agentic
-
-**AgentQuant** represents a paradigm shift from manual quant development to autonomous AI-driven research. By abstracting away the complexities of strategy development, we're democratizing access to institutional-grade quantitative trading capabilities.
-
-**Ready to transform your investment approach?** Start with a simple stock list and let our AI agents do the rest.
-
-*AgentQuant: Where AI meets quantitative trading for unprecedented strategy discovery* 🚀
+This is an experimental research project. Not financial advice. Do not use for actual trading without proper due diligence.
