@@ -35,11 +35,24 @@ def backtest_tool(strategy_name: str, asset_ticker: str, fast_window: int, slow_
     }
 
 def get_llm_planner():
-    """Initializes and returns the Gemini Pro model with tool configuration."""
+    """Initializes and returns the Gemini Pro model with tool configuration.
+    Supports both .env and Streamlit secrets."""
     load_dotenv()
-    api_key = os.getenv("GOOGLE_API_KEY")
+    
+    # Try Streamlit secrets first, then fall back to .env
+    api_key = None
+    try:
+        import streamlit as st
+        if hasattr(st, 'secrets') and 'GOOGLE_API_KEY' in st.secrets:
+            api_key = st.secrets['GOOGLE_API_KEY']
+    except:
+        pass
+    
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found. Please set it in your .env file.")
+        api_key = os.getenv("GOOGLE_API_KEY")
+    
+    if not api_key:
+        raise ValueError("GOOGLE_API_KEY not found. Please set it in .env or Streamlit secrets.")
     
     genai.configure(api_key=api_key)
     

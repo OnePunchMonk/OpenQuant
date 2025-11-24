@@ -182,11 +182,24 @@ def fetch_universe(asset_mode: str, start_date=None, end_date=None) -> dict:
 def fetch_fred_data(force_download=False):
     """
     Fetches macroeconomic data from FRED.
+    Supports both .env and Streamlit secrets.
     """
     load_dotenv()
-    fred_api_key = os.getenv("FRED_API_KEY")
+    
+    # Try Streamlit secrets first, then fall back to .env
+    fred_api_key = None
+    try:
+        import streamlit as st
+        if hasattr(st, 'secrets') and 'FRED_API_KEY' in st.secrets:
+            fred_api_key = st.secrets['FRED_API_KEY']
+    except:
+        pass
+    
     if not fred_api_key:
-        print("Warning: FRED_API_KEY not found in .env file. Skipping FRED data.")
+        fred_api_key = os.getenv("FRED_API_KEY")
+    
+    if not fred_api_key:
+        print("Warning: FRED_API_KEY not found in .env or Streamlit secrets. Skipping FRED data.")
         return None
 
     fred = Fred(api_key=fred_api_key)

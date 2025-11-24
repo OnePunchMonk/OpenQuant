@@ -1,6 +1,23 @@
 # OpenQuant
 
-An experimental AI-powered trading strategy research platform.
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+An experimental AI-powered automated trading platform with strategy generation, backtesting, and 24/7 paper trading.
+
+## 🚀 Quick Start
+
+### Try Live Demo
+**[🌐 Launch Live App](https://share.streamlit.io/)** ← Deploy your own in 5 minutes!
+
+### Run Locally
+```bash
+git clone https://github.com/OnePunchMonk/OpenQuant.git
+cd OpenQuant
+pip install -r requirements.txt
+streamlit run run_app.py
+```
 
 ## About
 
@@ -123,11 +140,18 @@ crypto_universe:
   - "ETH/USDT"
 ```
 
-4. Set up your API keys in `.env`:
+4. **Set up your API keys** (⚠️ IMPORTANT - Keep these secret!):
 ```bash
-GOOGLE_API_KEY=your_gemini_api_key_here
-FRED_API_KEY=your_fred_api_key_here  # optional
+# Copy the template file
+cp .env.example .env
+
+# Edit .env and add your real API keys
+# This file is gitignored and will NEVER be committed to GitHub
+GOOGLE_API_KEY=your_actual_gemini_api_key_here
+FRED_API_KEY=your_actual_fred_api_key_here  # optional
 ```
+
+**Security Note**: The `.env` file is already in `.gitignore` and will not be tracked by Git. Never commit API keys directly in code or config files.
 
 5. Run the app:
 ```bash
@@ -141,7 +165,17 @@ streamlit run run_app.py
 - **Multi-Asset Support**: Works with both stocks (yfinance) and crypto (CCXT)
 - **Backtesting**: Test strategies against historical data using vectorbt
 - **Interactive Charts**: View results with Plotly visualizations
-- **Paper Trading View**: Live price monitoring with auto-refresh
+- **Automated Paper Trading**: Full-featured simulated trading bot
+  - Select any strategy (Momentum, Mean Reversion, Breakout, etc.)
+  - **Auto-executes trades every hour** based on strategy signals
+  - Fetches fresh 1-hour data continuously for crypto
+  - Virtual portfolio with $100k starting capital
+  - Real-time position tracking with P&L monitoring
+  - Automated BUY/SELL signal generation and execution
+  - Complete trade and signal history
+  - Start/Stop controls for automated trading
+  - Manual trading option also available
+  - Persistent state across sessions
 
 ## Project Structure
 
@@ -247,10 +281,50 @@ Allocation = {AAPL: 40%, MSFT: 35%, GOOGL: 25%}
 
 ### 3. **Portfolio Managers**  
 - Generate alpha through systematic approaches
+
+---
+
+## 🌐 Deployment
+
+### Deploy to Streamlit Cloud (Free)
+
+1. **Fork this repository** to your GitHub account
+
+2. **Go to [Streamlit Cloud](https://share.streamlit.io/)**
+   - Sign in with GitHub
+   - Click "New app"
+   - Select repository: `YourUsername/OpenQuant`
+   - Branch: `main`
+   - Main file: `run_app.py`
+   - Click "Deploy!"
+
+3. **Add Secrets** (Settings > Secrets):
+   ```toml
+   GOOGLE_API_KEY = "your_gemini_api_key"
+   FRED_API_KEY = "your_fred_api_key"
+   ```
+
+4. **Your live app is ready!** 🎉
+   - Automated trading runs 24/7
+   - Portfolio state persists
+   - Share your unique URL
+
+📖 **[Complete Deployment Guide](DEPLOY_GUIDE.md)**
+
+---
+
+## 📞 Support & Community
+
+- **Issues**: [GitHub Issues](https://github.com/OnePunchMonk/OpenQuant/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/OnePunchMonk/OpenQuant/discussions)
+- **Documentation**: See `docs/` folder
+
+---
+
 ## License
 
 MIT License - see LICENSE file for details.
 
 ## Disclaimer
 
-This is an experimental research project. Not financial advice. Do not use for actual trading without proper due diligence.
+⚠️ **This is an experimental research project. Not financial advice.** Do not use for actual trading without proper due diligence. Past performance does not guarantee future results. Trading involves risk of loss.

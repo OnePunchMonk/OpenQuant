@@ -35,6 +35,8 @@ paper_trading:
   refresh_seconds: 60
   exchange: "binance"
   timeframe: "1h"
+  auto_update_interval: 3600  # Auto-execute trades every 1 hour (3600 seconds)
+  lookback_hours: 100  # Number of hours of historical data to fetch for signals
 
 # Backtest assumptions
 backtest:

@@ -47,6 +47,7 @@ from src.visualization.plots import (
 )
 from src.strategies.lego_blocks import LEGO_BLOCKS, LEGO_BLOCK_MAP
 from src.app.paper_trading import show_paper_trading
+from src.app.ai_visuals import AIBrain, PLCardGenerator
 
 
 # Configure Streamlit page settings for optimal user experience
@@ -294,10 +295,18 @@ def main():
             st.error("Please select at least one asset.")
             return
         
-        # Show spinner during processing
-        with st.spinner("Generating strategies with AI agent..."):
-            try:
-                # Fetch data (ensure SPY is included for reference calculations)
+        try:
+            # Show AI Brain thinking process
+            st.markdown("---")
+            primary_asset = selected_assets[0] if selected_assets else "SPY"
+            strategy_type = lego_choice if lego_choice != "AI Generate (Freeform)" else "adaptive"
+            
+            AIBrain.show_thinking(asset_name=primary_asset, strategy_type=strategy_type)
+            
+            st.markdown("---")
+            
+            # Fetch data (ensure SPY is included for reference calculations)
+            with st.spinner("📊 Fetching market data..."):
                 # Unified data fetch
                 if asset_mode == 'Crypto':
                     data = {sym: fetch_crypto_ohlcv(sym) for sym in selected_assets}
@@ -438,13 +447,13 @@ def main():
                     except Exception as e:
                         st.error(f"Error running backtest for strategy {i+1}: {str(e)}")
                 
-                # Store the backtest results
-                st.session_state.backtest_results = backtest_results
-                
-                st.success(f"Generated {len(proposals)} strategies and saved results to {results_folder}")
+            # Store the backtest results
+            st.session_state.backtest_results = backtest_results
             
-            except Exception as e:
-                st.error(f"Error generating strategies: {str(e)}")
+            st.success(f"Generated {len(proposals)} strategies and saved results to {results_folder}")
+        
+        except Exception as e:
+            st.error(f"Error generating strategies: {str(e)}")
     
     # Display the generated strategies and results
     if st.session_state.strategies:
@@ -482,6 +491,45 @@ def main():
                     st.subheader("Performance Metrics")
                     metrics_df = pd.DataFrame([result_data["metrics"]])
                     st.dataframe(metrics_df)
+                    
+                    # P&L Card Generator
+                    st.markdown("---")
+                    col_card1, col_card2 = st.columns([1, 3])
+                    with col_card1:
+                        st.markdown("### 📸 Share Your Results")
+                        if st.button("🎨 Generate P&L Card", key=f"generate_card_{i}", type="primary"):
+                            # Extract metrics
+                            metrics = result_data["metrics"]
+                            total_return = metrics.get('Total Return [%]', 0)
+                            sharpe = metrics.get('Sharpe Ratio', 0)
+                            max_dd = metrics.get('Max Drawdown [%]', 0)
+                            num_trades = metrics.get('Num Trades', 0)
+                            
+                            # Get equity curve for mini chart
+                            ec = result_data["equity_curve"]
+                            if isinstance(ec, pd.DataFrame):
+                                equity_list = ec.iloc[:,0].tolist()
+                            else:
+                                equity_list = ec.tolist() if hasattr(ec, 'tolist') else list(ec)
+                            
+                            # Generate card
+                            primary_asset = strategy['asset_tickers'][0] if strategy['asset_tickers'] else 'SPY'
+                            pnl_fig = PLCardGenerator.create_plotly_card(
+                                strategy_name=strategy['strategy_type'].replace('_', ' ').title(),
+                                total_return=total_return,
+                                sharpe_ratio=sharpe,
+                                max_drawdown=max_dd,
+                                num_trades=int(num_trades),
+                                asset=primary_asset,
+                                equity_curve=equity_list[-100:]  # Last 100 points
+                            )
+                            
+                            with col_card2:
+                                st.plotly_chart(pnl_fig, use_container_width=True)
+                                st.caption("📸 Right-click on the chart and select 'Save image as...' to download your P&L card!")
+                                st.success("✨ P&L Card Generated! Share it on social media with #AlphaSwarm")
+                    
+                    st.markdown("---")
                     
                     # Create columns for the plots
                     col1, col2 = st.columns(2)
